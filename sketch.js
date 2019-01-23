@@ -2,6 +2,7 @@ let input, button;
 let key='6c08c80972c6478e88d92033191101'; // signup https://www.apixu.com/signup.aspx
 let wind_speed=0;
 let wind_dir=0;
+let temp_c=0;
 let img;
 
 let xpos=3;
@@ -12,7 +13,13 @@ let yforward=0;
 
 let allepfeile=[];//Array fuer alle pfeile
 
-let abstandpfeile=100; //kannst du frei setzen
+let abstandpfeile=120; //kannst du frei setzen
+
+let fontBold;
+function preload() {
+  fontBold = loadFont('assets/Barlow-ExtraBold.ttf');
+}
+
 
 function setup() {
     createCanvas(windowWidth, windowHeight);
@@ -23,12 +30,14 @@ function setup() {
     let url = 'https://api.apixu.com/v1/current.json?key='+key+'&q=Zurich';
     //https://api.apixu.com/v1/forecast.json?key=6c08c80972c6478e88d92033191101&q=Zürich&days=1'
     input = createInput();//https://p5js.org/examples/dom-input-and-button.html
-    input.position(20, 65);
+    input.position(100, 100);
 
     button = createButton('submit');
-    button.position(input.x + input.width, 65);
+    button.position(input.x + input.width, 100);
     button.mousePressed(reloadJson);
 
+    textFont(fontBold);
+    text('Font Style Bold', 10, 70);
 
     xpos=width/2;
     ypos=height/2;
@@ -46,6 +55,7 @@ function reloadJson(){
 function gotWeather(weather) {
     wind_speed=weather.current.wind_kph;
     wind_dir=weather.current.wind_degree;
+    temp_c=weather.current.temp_c;
 
     yforward = .3 * wind_speed * sin(90-wind_dir);
     xforward = .3 * wind_speed * cos(90-wind_dir);
@@ -70,23 +80,35 @@ function gotWeather(weather) {
 
 
 function draw () {
-    background(255);
-    textSize(20);
+    colorMode(RGB, 100, 170, 255);
+    background(10,140,200);
+    textAlign(LEFT);
 
-    text("Windgeschwindigkeit "+wind_speed, 100,300);
-    text("Windrichtung "+wind_dir, 100,350);
+    textSize(20);
+    text('Type any city:', 100, 80);
+
+	  rectMode(CENTER);
+    textSize(150);
+    // text("WIND SPEED "+wind_speed+" km/h", 100,400);
+    // text("WIND DIRECTION "+wind_dir+"°", 100,500);
+    text(+wind_speed+" km/h", 100,400);
+    text(+wind_dir+"°", 100,570);
+    fill(200, 50, 10);
 
     drawWindDir();
     drawWindSpeed();
 }
 
 
+function drawTempColor(){
+
+
+}
 
 
 function drawWindDir(){
     push();
     //translate(width/2, height/2);
-
     rotate(wind_dir);
     pop();
 }
@@ -191,10 +213,5 @@ function drawWindSpeed(){
             pfeil.y=maxY+abstandpfeile;
         }
     }
-
-//tint(255, 50);
-//image(img, 0, 0, img.width/2, img.height/2);
-    //pop();
-    //pop();
 
 }
