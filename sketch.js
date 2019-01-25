@@ -22,7 +22,6 @@ function preload() {
   fontBold = loadFont('assets/Barlow-ExtraBold.ttf');
 }
 
-
 function setup() {
     createCanvas(windowWidth, windowHeight);
     angleMode(DEGREES);
@@ -84,41 +83,21 @@ function gotWeather(weather) {
 
 
 function draw () {
-    colorMode(RGB, 100, 170, 255);
-    drawTempColor();
-    textAlign(LEFT);
+  colorMode(RGB, 100, 170, 255);
+  drawTempColor();
+  textAlign(LEFT);
 
-    textSize(20);
-    text('Type any city:', 100, 80);
-    text(town+", "+land, 100, 300);
+  textSize(20);
+  text('Type any city:', 100, 80);
+  text(town+", "+land, 100, 300);
 
-	  rectMode(CENTER);
-    textSize(150);
-    // text("WIND SPEED "+wind_speed+" km/h", 100,400);
-    // text("WIND DIRECTION "+wind_dir+"°", 100,500);
-    text(+wind_speed+" km/h", 100,400);
-
-    if ((wind_dir>0) && (wind_dir<90)) {
-      text("Nord-Ost-Wind", 100,570);
-    }
-
-    if ((wind_dir>90) && (wind_dir<180)) {
-      text("Süd-Ost-Wind", 100,570);
-    }
-
-    if ((wind_dir>180) && (wind_dir<270)) {
-      text("Süd-West-Wind", 100,570);
-    }
-
-    if ((wind_dir>270) && (wind_dir<360)) {
-      text("Nord-West-Wind", 100,570);
-    }
-
-    if (wind_dir=90) {
-      text("Nord-West-Wind", 100,570);
-    }
-
-    fill(190, 100, 190);
+  rectMode(CENTER);
+  textSize(150);
+  // text("WIND SPEED "+wind_speed+" km/h", 100,400);
+  // text("WIND DIRECTION "+wind_dir+"°", 100,500);
+  text(+wind_speed+" km/h", 100,400);
+  text(+wind_dir+" °", 100,560);
+  fill(190, 100, 190);
 
     drawWindDir();
     drawWindSpeed();
@@ -132,13 +111,14 @@ function drawTempColor(){
     let step = map(temp_c,-10,30,0,1);
     let daycolor=lerpColor(from, to, step);
     background(daycolor);
-
 }
+
 
 
 function drawWindDir(){
     push();
     //translate(width/2, height/2);
+
     rotate(wind_dir);
     pop();
 }
@@ -146,6 +126,42 @@ function drawWindDir(){
 
 
 function drawWindSpeed(){
+   /* push();
+
+    xpos=xpos+xforward;
+    ypos=ypos-yforward;
+
+
+    if(xpos>width){
+        xpos=0;
+    }
+    if(xpos<0){
+        xpos=width;
+    }
+
+
+    // analog noch height und y machen!
+    if(ypos>height){
+        ypos=0;
+    }
+    if(ypos<0){
+        ypos=height;
+    }
+
+
+    translate(xpos, ypos);
+
+    rotate(wind_dir);
+
+
+    for (let x = -2000 ; x <= 2000 ; x=x+100)
+    {
+        for (let y = -2000 ; y <= 2000 ; y=y+100)
+        {
+            //tint(255, 80);
+            image(img, x, y, img.width/2, img.height/2);
+        }
+    }*/
 
     /*hier gehst du jetzt neu durch dein Array allepfeile durch
     somit kannst du jeden pfeil individuell platzieren und die position abfragen
@@ -207,5 +223,10 @@ function drawWindSpeed(){
             pfeil.y=maxY+abstandpfeile;
         }
     }
+
+//tint(255, 50);
+//image(img, 0, 0, img.width/2, img.height/2);
+    //pop();
+    //pop();
 
 }
