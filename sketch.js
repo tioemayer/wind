@@ -1,9 +1,10 @@
 let input, button;
 let key='6c08c80972c6478e88d92033191101'; // signup https://www.apixu.com/signup.aspx
 let wind_speed=0;
-let wind_dir=0;
+let windDir=0;
 let town;
 let land;
+let himmelsrichtung=0;
 let temp_c=[];
 let img;
 
@@ -31,10 +32,10 @@ function setup() {
     let url = 'https://api.apixu.com/v1/current.json?key='+key+'&q=Zurich';
     //https://api.apixu.com/v1/forecast.json?key=6c08c80972c6478e88d92033191101&q=Zürich&days=1'
     input = createInput();//https://p5js.org/examples/dom-input-and-button.html
-    input.position(100, 100);
+    input.position(100, 110);
 
     button = createButton('submit');
-    button.position(input.x + input.width, 100);
+    button.position(input.x + input.width, 110);
     button.mousePressed(reloadJson);
 
     textFont(fontBold);
@@ -55,13 +56,14 @@ function reloadJson(){
 
 function gotWeather(weather) {
     wind_speed=weather.current.wind_kph;
-    wind_dir=weather.current.wind_degree;
+    windDir=weather.current.wind_degree;
     temp_c=weather.current.temp_c;
     town=weather.location.name;
     land=weather.location.country;
+    himmelsrichtung=weather.current.wind_dir;
 
-    yforward = .4 * wind_speed * sin(90-wind_dir);
-    xforward = .4 * wind_speed * cos(90-wind_dir);
+    yforward = .4 * wind_speed * sin(90-windDir);
+    xforward = .4 * wind_speed * cos(90-windDir);
 
     allepfeile=[];
     //hier füllst du dein array allepfeile mit den objekten, die haben dann alle eine eigene position
@@ -93,10 +95,8 @@ function draw () {
 
   rectMode(CENTER);
   textSize(150);
-  // text("WIND SPEED "+wind_speed+" km/h", 100,400);
-  // text("WIND DIRECTION "+wind_dir+"°", 100,500);
   text(+wind_speed+" km/h", 100,400);
-  text(+wind_dir+" °", 100,560);
+  text(+windDir+"° "+himmelsrichtung, 100,560);
   fill(190, 100, 190);
 
     drawWindDir();
@@ -119,53 +119,14 @@ function drawWindDir(){
     push();
     //translate(width/2, height/2);
 
-    rotate(wind_dir);
+    rotate(windDir);
     pop();
 }
 
 
 
 function drawWindSpeed(){
-   /* push();
 
-    xpos=xpos+xforward;
-    ypos=ypos-yforward;
-
-
-    if(xpos>width){
-        xpos=0;
-    }
-    if(xpos<0){
-        xpos=width;
-    }
-
-
-    // analog noch height und y machen!
-    if(ypos>height){
-        ypos=0;
-    }
-    if(ypos<0){
-        ypos=height;
-    }
-
-
-    translate(xpos, ypos);
-
-    rotate(wind_dir);
-
-
-    for (let x = -2000 ; x <= 2000 ; x=x+100)
-    {
-        for (let y = -2000 ; y <= 2000 ; y=y+100)
-        {
-            //tint(255, 80);
-            image(img, x, y, img.width/2, img.height/2);
-        }
-    }*/
-
-    /*hier gehst du jetzt neu durch dein Array allepfeile durch
-    somit kannst du jeden pfeil individuell platzieren und die position abfragen
-     */
     let minX=width ;
     let minY=height;
     let maxX=0;
@@ -180,7 +141,7 @@ function drawWindSpeed(){
 
         push();
         translate(pfeil.x, pfeil.y);
-        rotate(wind_dir);
+        rotate(windDir);
         image(img, 0, 0, img.width/2, img.height/2);
         pop();
 
