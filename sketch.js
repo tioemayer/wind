@@ -91,6 +91,8 @@ function draw () {
 
   textSize(20);
   text('Type any city:', 100, 80);
+
+  textSize(35);
   text(town+", "+land, 100, 300);
 
   rectMode(CENTER);
@@ -170,14 +172,14 @@ function drawWindSpeed(){
     *des sichtbaren bereichs sind */
     for(let p=0;p<allepfeile.length;p++){
         let pfeil = allepfeile[p];
-        if(pfeil.x>windowWidth+2*abstandpfeile){
+        if(pfeil.x>windowWidth+1*abstandpfeile){
             pfeil.x=minX-abstandpfeile;
         }
         if(pfeil.x<abstandpfeile*-1){
             pfeil.x=maxX+abstandpfeile;
         }
 
-        if(pfeil.y>height+2*abstandpfeile){
+        if(pfeil.y>height+1*abstandpfeile){
             pfeil.y=minY-abstandpfeile;
         }
         if(pfeil.y<abstandpfeile*-1){
